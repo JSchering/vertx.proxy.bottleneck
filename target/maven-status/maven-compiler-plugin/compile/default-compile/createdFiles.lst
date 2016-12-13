@@ -1,0 +1,7 @@
+service\issue\bottleneck\TestServiceVertxEBProxy.class
+service\issue\bottleneck\rxjava\TestService.class
+service\issue\bottleneck\TestVerticle.class
+service\issue\bottleneck\package-info.class
+service\issue\bottleneck\TestServiceVertxProxyHandler.class
+service\issue\bottleneck\impl\TestServiceImpl.class
+service\issue\bottleneck\TestService.class
