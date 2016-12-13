@@ -12,7 +12,7 @@
 
   <properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.url>http://confluence.billing.com/display/URP</project.url>
+		
 
 		<vertx.version>3.3.3</vertx.version>
 		<log4j2.version>2.5</log4j2.version>
