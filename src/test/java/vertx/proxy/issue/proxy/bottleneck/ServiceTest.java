@@ -40,7 +40,7 @@ public class ServiceTest {
 
 		DeploymentOptions options = new DeploymentOptions();
 		vertx.deployVerticle(TestVerticle.class.getName(), options, context.asyncAssertSuccess());
-
+		
 		service = ProxyHelper.createProxy(TestService.class, vertx, TestService.SERVICE_ADDRESS);
 	}
 
@@ -52,21 +52,28 @@ public class ServiceTest {
 	@Test
 	public void test(TestContext context) {
 		final Async async = context.async();
-
-		List<Future> futures = new ArrayList<Future>();
-		for (int i = 0; i < 10000; i++) {
-			Future future = Future.future();
-			futures.add(future);
-			long startTime = System.currentTimeMillis();
-			service.test(handler -> {
-				future.complete();
-				long endTime = System.currentTimeMillis();
-				System.out.println("TEST TIME:" + (endTime - startTime) + "ms");
+		int base = 100;
+		for(int j=1; j < 100;j++){
+			List<Future> futures = new ArrayList<Future>();
+			int generate = j*base;
+//			System.out.println("################ Test " + j + " generate: " + generate + " calls ################");
+			final int runNum = j;
+			long runStart = System.currentTimeMillis();
+			for (int i = 0; i <= generate; i++) {
+				Future future = Future.future();
+				futures.add(future);
+				long startTime = System.currentTimeMillis();
+				service.test(handler -> {
+					future.complete();
+					long endTime = System.currentTimeMillis();
+					System.out.println("TEST " + runNum + " TIME:" + (endTime - startTime) + "ms");
+				});
+			}			
+			CompositeFuture.all(futures).setHandler(handler ->{
+				long runEnd = System.currentTimeMillis();
+				System.out.println("################ Completed Test " + runNum + " generated: " + generate + " calls in " + (runEnd - runStart) + "ms ################");
 			});
 		}
-		
-		CompositeFuture.all(futures).setHandler(handler ->{
-			async.complete();
-		});
+		async.complete();
 	}
 }

@@ -30,9 +30,10 @@ public class TestVerticle extends AbstractVerticle {
 
 		// init service discovery instance
 		discovery = ServiceDiscovery.create(vertx);		
-
-		// register the service proxy on event bus
-		ProxyHelper.registerService(TestService.class, vertx, new TestServiceImpl(vertx, config()), TestService.SERVICE_ADDRESS);
+		for(int i = 0; i < 100; i++){
+			// register the service proxy on event bus
+			ProxyHelper.registerService(TestService.class, vertx, new TestServiceImpl(vertx, config()), TestService.SERVICE_ADDRESS);
+		}
 
 		publishEventBusService(TestService.SERVICE_NAME, TestService.SERVICE_ADDRESS, TestService.class).setHandler(future.completer());
 	}
